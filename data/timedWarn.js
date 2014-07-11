@@ -1,3 +1,5 @@
-timer.setTimeout(function(){
-   alert("You've been browsing for too long, please start blocking")},
-   prefs.warnTime
+self.on("message", function(warnTime)
+{
+   setTimeout(function(){ alert("Don\'t you have work to do? Block it now.")}, warnTime*1000*60);
+});
+
