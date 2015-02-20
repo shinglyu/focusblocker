@@ -1,0 +1,15 @@
+Brief Summary:
+Block websites for a given time to help you focus on work/study (currently blocks facebook, twitter, feedly and icanhazcheezeburger.)
+
+Detailed description:
+FocusBlocker is a light-weight add-on that blocks time-wasting websites to help you focus on real work. By clicking the icon, a selected list of websites will be blocked for a given time (say 30 min). Also, a soft reminder will pop-up when you browse those websites for too long. FocusBlocker can give you flexible control over when you want to block, which is superior than a schedule-based approach is you have a flexible working schedule.
+
+The blocking time and reminder pop-up time can be adjusted in the add-on preference page.
+
+The list of blocking website includes some common time-wasters:
+* facebook
+* twitter
+* feedly
+* icanhazcheezeburger
+Setting your own custom list will be supported soon.
+
