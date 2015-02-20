@@ -64,3 +64,101 @@ THEN Should be blocked
 
 WHEN Wait for 1 min, open www.facebook.com
 THEN Should be unblocked
+
+-------------------------
+
+TEST THAT state can be resumed -- 0
+
+WHEN Set the block timeout to be 1 min
+
+WHEN Disable then enable the addon
+THEN log should go to 0:unblock
+
+WHEN open www.facebook.com
+THEN should prompt for timer input
+
+---------------------------
+
+TEST THAT state can be resumed -- 2
+
+WHEN Set the block timeout to be 1 min
+
+WHEN click the block
+
+WHEN Open www.facebook.com
+THEN should be blocked
+
+WHEN Disable then enable the addon
+THEN log should go to 2: block to old expiration
+
+WHEN open www.facebook.com
+THEN should be blocked
+
+WHEN open wati for < 1 min
+THEN should be unblocked
+
+------------------------------
+
+TEST THAT state can be resumed -- 3
+
+WHEN Set the block timeout to be 1 min
+
+(Optional) WHEN set block timer to 1 min
+
+WHEN click the block
+
+WHEN Open www.facebook.com
+THEN should be blocked
+
+WHEN Disable the addon
+
+WHEN wait for 1 min
+
+WHEN Enable the addon
+THEN log should go to 3: unblocked
+
+WHEN open www.facebook.com
+THEN should prompt
+
+------------------------------
+
+TEST THAT state can be resumed -- 4
+
+WHEN open www.facebook.com 
+THEN should be prompted
+
+WHEN Set the start timer to 1 min
+THEN should be unblocked
+
+WHEN Open feedly.com
+THEN should not be prompted
+
+WHEN Disable and then enable the addon
+THEN should go to state 4: reset timeout
+
+WHEN open www.facebook.com
+THEN should be unblocked, no prompt
+
+WHEN wait for < 1 min
+THEN Should block
+
+------------------------------
+
+TEST THAT state can be resumed -- 5
+
+WHEN open www.facebook.com 
+THEN should be prompted
+
+WHEN Set the start timer to 0.5 min
+THEN should be unblocked
+
+WHEN Disable the addon
+
+WHEN Wait for ~0.5 min
+
+WHEN Enable the addon
+THEN should go to state 5: block from now
+
+WHEN open www.facebook.com
+THEN should be blocked
+

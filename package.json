@@ -6,32 +6,13 @@
   "author": "Shing Lyu [shing.lyu@gmail.com]",
   "license": "MIT",
   "version": "0.1",
-  "preferences": [{
-        "name": "expireTime",
-        "type": "string",
-        "title": "Time to unblock",
-        "value": "1995-12-17T03:24:00",
-        "hidden": true
-  },
-  {
+  "preferences": [
+    {
         "name": "blockTimeout",
         "title": "Block Time",
         "description":"How long do you want to block? (minutes)",
         "type": "integer",
         "value": 30
-  },
-  {
-        "name": "enableTimedWarning",
-        "title": "Enable Warning Timer",
-        "description":"Warn you when you are browsing for too long.",
-        "type": "bool",
-        "value": true 
-  },
-  {
-        "name": "warnTime",
-        "title": "Warning Timeout",
-        "description":"How long do you want the warning to show up? (minutes)",
-        "type": "integer",
-        "value": 5 
-  }]
+    }
+  ]
 }
