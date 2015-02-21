@@ -1,5 +1,5 @@
 self.port.emit('isTimedBlockUnset');
-self.port.on('askTimedBlock', function(){
-  var time = window.prompt('I promise  I will only browse for ___ minutes', '10'); 
+self.port.on('askTimedBlock', function(msg){
+  var time = window.prompt(msg, '10'); 
   self.port.emit('setTimedBlock', time);
 })
