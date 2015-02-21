@@ -162,3 +162,16 @@ THEN should go to state 5: block from now
 WHEN open www.facebook.com
 THEN should be blocked
 
+-----------------------------
+
+TEST THAT The prompt will not show up when blocking
+
+WHEN Click the "Start blocking"
+
+WHEN open www.facebook.com
+THEN should be blocked
+
+WHEN go to https://tw.knowledge.yahoo.com/question/question?qid=1011110503414 //has embedded facebook page
+THEN No prompt should show up
+
+
