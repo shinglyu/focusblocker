@@ -175,3 +175,18 @@ WHEN go to https://tw.knowledge.yahoo.com/question/question?qid=1011110503414 //
 THEN No prompt should show up
 
 
+-----------------------------
+TEST THAT The prompt can be disabled
+
+WHEN In addon settings, disalbe the prompt
+
+WHEN open www.facebook.com
+THEN no prompt
+
+WHEN In addon settings, enable the prompt
+THEN existing facebook page will get a prompt
+
+WHEN open new tab www.facebook.com
+THEN get a prompt
+
+
