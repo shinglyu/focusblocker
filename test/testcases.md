@@ -189,4 +189,16 @@ THEN existing facebook page will get a prompt
 WHEN open new tab www.facebook.com
 THEN get a prompt
 
+-----------------------------
+TEST THAT Unbloked even if the timer expired during system sleep
 
+WHEN Start blocking
+
+WHEN Let the computer sleep before the unblock timer is fired
+--OR--
+WHEN Set the expireTime to a earlier time
+
+WHEN Wake the computer after the unblock timer is fired
+
+WHEN Open www.facebook.com
+THEN Should be unblocked, propmpt shows up
