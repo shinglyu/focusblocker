@@ -20,6 +20,19 @@
         "description":"You'll be asked to set a countdown timer for bloking when you open a blacklisted site.",
         "type": "bool",
         "value": true
+    },
+    {
+        "name": "blacklist",
+        "title": "Blacklist",
+        "description": "A blacklist of sites that should be blocked",
+        "type": "string",
+        "value": "*.facebook.com,https://twitter.com/*,*.cheezburger.com,http://feedly.com/*"
+    },
+    {
+        "type": "control",
+        "label": "Reset blacklist to default",
+        "name": "resetDefault",
+        "title": "Reset Blacklist"
     }
   ]
 }
