@@ -202,3 +202,25 @@ WHEN Wake the computer after the unblock timer is fired
 
 WHEN Open www.facebook.com
 THEN Should be unblocked, propmpt shows up
+
+----------------------------
+CHARTER
+Test the custom blacklist function
+
+TEST NOTE
+
+Test the following areas:
+  * Positive path
+    * timed prompt
+    * manual block
+    * resume
+    * reset default
+  * Negative path
+    * Bad format
+    * Bad separation
+  * Timing
+    * Change
+      * Before timer init
+      * During timer countdown
+      * Blocking
+
