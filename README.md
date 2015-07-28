@@ -1,8 +1,5 @@
-#Building form Source
-* Download Firefox Add-on SDK 
-* Under the SDK folder, run:
-   source bin/activate
-* Test run:
-   cfx run
-* Build the xpi installation package:
-   cfx xpi
+This add-on has three versions:
+
+* (Deprecated) Firefox version for Firefox 56 and below: [Install on AMO](https://addons.mozilla.org/zh-tw/firefox/addon/focusblocker/).
+* Firefox version for Firefox 57 and above: still under review, check the `firefox-webext` branch
+* Chrome: [Install on Chrome store](https://chrome.google.com/webstore/detail/focusblocker/bejdhniafighghjelnmhhcgongokdhbi?hl=zh-TW). Check the `chrome` branch
