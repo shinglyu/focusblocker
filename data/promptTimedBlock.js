@@ -1,5 +1,5 @@
 self.port.emit('isTimedBlockUnset');
-self.port.on('askTimedBlock', function(msg){
-  var time = window.prompt(msg, '10'); 
+self.port.on('askTimedBlock', function(data){
+  var time = window.prompt(data.msg, data.time); 
   self.port.emit('setTimedBlock', time);
 })
