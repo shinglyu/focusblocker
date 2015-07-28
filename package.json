@@ -5,7 +5,7 @@
   "description": "Block websites for a given time to help you focus on work/study",
   "author": "Shing Lyu [shing.lyu@gmail.com]",
   "license": "MIT",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "preferences": [
     {
         "name": "blockTimeout",
@@ -21,5 +21,6 @@
         "type": "bool",
         "value": true
     }
-  ]
+  ],
+  "permissions":{"private-browsing": true}
 }
