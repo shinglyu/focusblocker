@@ -1,0 +1,19 @@
+{
+  "name": "My awesome extension :)",
+  "version": "0.1",
+  "icons": {
+    "16": "/data/noicon-16.png",
+    "128": "/data/noicon-128.png"
+  },
+  "description": "Yay, I'm so useless.",
+  "permissions": [],
+  "content_scripts": [
+    {
+    "matches": ["*://www.facebook.com/*"],
+    "js": [
+      "/data/block.js"
+    ]
+  }
+  ],
+  "manifest_version": 2
+}
