@@ -6,14 +6,12 @@
     "128": "/data/noicon-128.png"
   },
   "description": "Yay, I'm so useless.",
-  "permissions": [],
-  "content_scripts": [
-    {
-    "matches": ["*://www.facebook.com/*"],
-    "js": [
-      "/data/block.js"
-    ]
-  }
+  "permissions": [
+    "tabs",
+    "<all_urls>"
   ],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "manifest_version": 2
 }
