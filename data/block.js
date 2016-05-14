@@ -1,2 +1,3 @@
-window.location.replace('about:blank')
-//document.body.innerHTML = '<h1 style="text-align:center;font-size:15vw;margin-top:38vh">BLOCKED</h1>';
+//window.location.replace('about:blank')
+//window.location = "about:blank"
+document.body.innerHTML = '<h1 style="text-align:center;font-size:15vw;">Get back to work!</h1>';
