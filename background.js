@@ -4,12 +4,13 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   chrome.storage.sync.set({"default_prompt_time":1});
   chrome.storage.sync.set({"block_time":1});
   console.log(tab.url)
-  /*
   console.log(changeInfo)
+  /*
   console.log(tab)
   */
   // TODO; make the blacklist customizable
-  if (tab.url.includes("facebook.com") && tab.status == "complete"){
+  //if (tab.url.includes("facebook.com") && tab.status == "complete"){
+  if (tab.url.includes("facebook.com") && change && change.status == "loading"){
     // if state == none
     chrome.storage.sync.get(["state", "end_time"], function(items){
       console.log(items)
