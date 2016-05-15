@@ -27,6 +27,8 @@
         "description":"How long do you expect to browse everytime? (minutes)",
         "type": "integer",
         "value": 10 
+    },
+    {
         "name": "blacklist",
         "title": "Blacklist",
         "description": "A blacklist of sites that should be blocked",
