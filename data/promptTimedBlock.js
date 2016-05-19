@@ -5,7 +5,10 @@ var default_prompt_time = chrome.storage.sync.get({
 }, function(items) {
   console.log(items.state)
   if (typeof(items.state) == "undefined" || items.state == "free"){
-    var time = window.prompt("I promise I'll only browse for ___ min.", items.default_prompt_time);
+    var time = null;
+    while (isNaN(+time) || time === null){
+      time = window.prompt("I promise I'll only browse for ___ min.", items.default_prompt_time);
+    }
     chrome.storage.sync.set({"state": "countdown", 
                              "start_time": Date.now(),
                              "end_time": Date.now() + Math.round(time * 60 * 1000)
