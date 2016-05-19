@@ -7,12 +7,14 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   chrome.storage.sync.get({ 
     state: "free",
     default_prompt_time: 10,
-    block_time: 50
+    block_time: 50,
+    blacklist: "*://*.facebook.com/*"
   }, function(items){
     chrome.storage.sync.set({
       state: items.state,
       default_prompt_time: items.default_prompt_time,
-      block_time: items.block_time
+      block_time: items.block_time,
+      blacklist: items.blacklist
     })
   });
   console.log(tab.url)
@@ -22,69 +24,46 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   */
   // TODO; make the blacklist customizable
   //if (tab.url.includes("facebook.com") && tab.status == "complete"){
-  chrome.tabs.query({"url": ["*://*.facebook.com/*"]}, function(tabs){
-    var tab_ids = tabs.map(function(tab){return tab.id});
-    /*
-    console.log("Found tabs " + tab_ids)
-    console.log("This tab " + tabId)
-    console.log("Match " + tab_ids.indexOf(tabId))
-    console.log("Match " + (tab_ids.indexOf(tabId) > 0 && change && change.status == "loading"))
-    */
-    if (tab_ids.indexOf(tabId) >= 0 && changeInfo && changeInfo.status == "loading"){
-      // if state == none
-      chrome.storage.sync.get(["state", "end_time"], function(items){
+  chrome.storage.sync.get(["state", "end_time", "blacklist"], function(items){
+    var urls = parseBlacklist(items.blacklist);
+    chrome.tabs.query({"url": urls}, function(tabs){
+      var tab_ids = tabs.map(function(tab){return tab.id});
+      /*
+      console.log("Found tabs " + tab_ids)
+      console.log("This tab " + tabId)
+      console.log("Match " + tab_ids.indexOf(tabId))
+      console.log("Match " + (tab_ids.indexOf(tabId) > 0 && change && change.status == "loading"))
+      */
+      if (tab_ids.indexOf(tabId) >= 0 && changeInfo && changeInfo.status == "loading"){
         console.log(items)
         if (typeof(items.state) == "undefined" || items.state == "free"){
           chrome.tabs.executeScript(tabId, {file: "data/promptTimedBlock.js"});
         }
-          /*
-          chrome.tabs.sendMessage(tabId, {default_prompt_time: 10}, function(response) {
-            console.log("Got response")
-            console.log(response);
-          });
-          */
-          // set countdown state
-          // set timer to block
-        // if state == countdown
         if (items.state && items.state == "countdown"){
-          // if still valid
           console.log("Chrome restarted at " + Date() + " last countdown should start at  " + (new Date(items.end_time)).toString())
           if (Date.now() < items.end_time){
-            // set timer to block
             console.log("Chrome restarted, re-enable the timer at " + (new Date(items.end_time)).toString())
             chrome.alarms.create("block", {"when":items.end_time});
           }
-          // if already expired
           else {
             console.log("Chrome restarted, countdown expired, block right away")
             block();
-            // block right away
           }
-
         }
-        // if state == block
         if (items.state && items.state == "blocking"){
           console.log("Chrome restarted at " + Date() + " last blocking should start at  " + (new Date(items.end_time)).toString())
-          // if still valid
           if (Date.now() < items.end_time){
             block()
-            // block right away
           }
-
           else {
             unblock()
-
-
           }
         }
-          // if already expired
-            // set state to unblock
-          //chrome.tabs.executeScript(tabId, {file: "data/block.js"});
-          // set timer to none
+      }
+    })
 
-      })
-    }
   })
+
 });
 
 chrome.storage.onChanged.addListener(function(changes, namespace){
@@ -118,21 +97,26 @@ chrome.alarms.onAlarm.addListener(function( alarm ) {
 
 function block() {
   // TODO: dynamic url list
-  chrome.tabs.query({"url": ["*://*.facebook.com/*"]}, function(tabs){
-    console.log(tabs)
-    for (var tab of tabs){
-      console.log("blocking tab " + tab.url)
-      chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
-    }
+  chrome.storage.sync.get(["blacklist"], function(items){
+    var urls = parseBlacklist(items.blacklist);
+    chrome.tabs.query({"url": urls}, function(tabs){
+      console.log(tabs)
+      for (var tab of tabs){
+        console.log("blocking tab " + tab.url)
+        chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
+      }
+    })
   })
 
-  chrome.storage.sync.get(["end_time", "block_time"], function(items){
-    var time = items.block_time;
-    console.log("Setting state to blocking from " + new Date(items.end_time) + " to " + new Date(items.end_time + Math.round(time * 60 * 1000)))
-    chrome.storage.sync.set({"state": "blocking", 
-                             "start_time": items.end_time,
-                             "end_time": items.end_time + Math.round(time * 60 * 1000)
-                            })
+  chrome.storage.sync.get(["state", "end_time", "block_time"], function(items){
+    if (items.state !== "blocking"){
+      var time = items.block_time;
+      console.log("Setting state to blocking from " + new Date(items.end_time) + " to " + new Date(items.end_time + Math.round(time * 60 * 1000)))
+      chrome.storage.sync.set({"state": "blocking", 
+                               "start_time": items.end_time,
+                               "end_time": items.end_time + Math.round(time * 60 * 1000)
+                              })
+    }
   })
 }
 
@@ -141,4 +125,8 @@ function unblock(){
                              "start_time": Date.now(),
                              "end_time": undefined
                             });
+}
+
+function parseBlacklist(blacklist){
+  return blacklist.split('\n').map(function(item){return item.trim()})
 }
