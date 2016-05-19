@@ -1,8 +1,20 @@
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) { 
   // Move this to the setting page
   //chrome.storage.sync.set({"state": "free", "start_time": Date.now()})
-  chrome.storage.sync.set({"default_prompt_time":1});
-  chrome.storage.sync.set({"block_time":1});
+  //chrome.storage.sync.set({"default_prompt_time":1});
+  //chrome.storage.sync.set({"block_time":1});
+  // Set default
+  chrome.storage.sync.get({ 
+    state: "free",
+    default_prompt_time: 10,
+    block_time: 50
+  }, function(items){
+    chrome.storage.sync.set({
+      state: items.state,
+      default_prompt_time: items.default_prompt_time,
+      block_time: items.block_time
+    })
+  });
   console.log(tab.url)
   console.log(changeInfo)
   /*

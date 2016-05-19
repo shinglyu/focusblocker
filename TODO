@@ -1,3 +1,4 @@
 custom blacklist
 countdown
 recover countdown after restart or crash https://developer.chrome.com/extensions/content_scripts#host-page-communication
+handle cancel in prompt

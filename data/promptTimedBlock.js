@@ -1,5 +1,8 @@
 //self.port.emit('isTimedBlockUnset');
-var default_prompt_time = chrome.storage.sync.get(["state", "default_prompt_time"], function(items) {
+var default_prompt_time = chrome.storage.sync.get({
+  state: "free",
+  default_prompt_time: 10,
+}, function(items) {
   console.log(items.state)
   if (typeof(items.state) == "undefined" || items.state == "free"){
     var time = window.prompt("I promise I'll only browse for ___ min.", items.default_prompt_time);
