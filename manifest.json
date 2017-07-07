@@ -5,7 +5,7 @@
     "16": "/data/noicon-16.png",
     "128": "/data/noicon-128.png"
   },
-  "description": "Block websites for a given time to help you focus on work/study. Using a 'browser 10 min then block 50 min' dynamic schedule approach (time adjustable)",
+  "description": "Block websites for a given time to help you focus on work/study. Using a 'browser 10 min then block 50 min' approach",
   "permissions": [
     "tabs",
     "<all_urls>",
@@ -16,5 +16,15 @@
     "scripts": ["background.js"]
   },
   "options_page":"options.html",
-  "manifest_version": 2
+  "manifest_version": 2,
+  "applications": {
+    "gecko": {
+      "id": "focusblocker@shing.lyu",
+      "strict_min_version": "42.0"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
+  }
 }
