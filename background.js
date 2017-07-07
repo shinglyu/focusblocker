@@ -51,7 +51,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
           }
         }
         if (items.state && items.state == "blocking"){
-          console.log("Chrome restarted at " + Date() + " last blocking should start at  " + (new Date(items.end_time)).toString())
+          console.log("Chrome restarted at " + Date() + " last blocking should end at  " + (new Date(items.end_time)).toString())
           if (Date.now() < items.end_time){
             block()
           }
@@ -68,6 +68,10 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
 chrome.storage.onChanged.addListener(function(changes, namespace){
   console.log(changes)
+  if (changes.default_prompt_time) {
+    console.log("Setting the default, don't do anything.");
+    return;
+  }
   if (changes.state && changes.state.newValue == "countdown"){
     console.log("State changed to countdown at " + Date())
     console.log("Current state starts at " + (new Date(changes.start_time.newValue)).toString())
