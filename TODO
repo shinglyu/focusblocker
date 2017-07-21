@@ -2,3 +2,11 @@ custom blacklist
 countdown
 recover countdown after restart or crash https://developer.chrome.com/extensions/content_scripts#host-page-communication
 handle cancel in prompt
+
+add a reset button
+Make sure the set default script won't run everytime
+Refactor and cleanup
+Remove jetpack files in the chrome branch
+cherry-pick back to chrome branch
+
+Push to github
