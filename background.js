@@ -101,7 +101,7 @@ function startCountdown() {
           type: "basic",
           title: "FocusBlocker", 
           message: "You have " + time + " min left",
-          iconUrl: "data/noicon-64.png"
+          iconUrl: "data/noicon-128.png"
         });
         console.debug("Notification created")
       }
@@ -141,7 +141,7 @@ function block() {
           type: "basic",
           title: "FocusBlocker", 
           message: "Sorry, you need to focus",
-          iconUrl: "data/noicon-64.png"
+          iconUrl: "data/noicon-128.png"
         });
         chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
       }
