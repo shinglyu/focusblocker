@@ -1,16 +1,18 @@
 {
   "name": "FocusBlocker",
-  "version": "0.1.1",
+  "version": "0.2",
   "icons": {
     "16": "/data/noicon-16.png",
     "128": "/data/noicon-128.png"
   },
   "description": "Block websites for a given time to help you focus on work/study. Using a 'browser 10 min then block 50 min' approach",
   "permissions": [
-    "tabs",
     "<all_urls>",
+    "alarms",
+    "notifications",
     "storage",
-    "alarms"
+    "tabs",
+    "webNavigation"
   ],
   "background": {
     "scripts": ["background.js"]
