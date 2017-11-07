@@ -62,9 +62,13 @@ chrome.alarms.onAlarm.addListener(function( alarm ) {
   }
 });
 
-// When settings change
+// Set a timer to transition to next state when state changes
 chrome.storage.onChanged.addListener(function(changes, namespace){
   console.debug(changes)
+  if (changes.state && changes.state.oldValue == changes.state.newValue) {
+    console.debug("No state change, skip");
+    return;
+  }
   if (changes.state && changes.state.newValue == "countdown"){
     console.debug("State changed to countdown at " + Date())
     console.debug("Current state starts at " + (new Date(changes.start_time.newValue)).toString())
@@ -105,6 +109,7 @@ function startCountdown() {
         });
         console.debug("Notification created")
       }
+      console.debug("Setting the state to countdown");
       chrome.storage.sync.set({"state": "countdown", 
                                "start_time": Date.now(),
                                "end_time": Date.now() + Math.round(time * 60 * 1000)
