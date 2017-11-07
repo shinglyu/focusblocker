@@ -10,7 +10,8 @@
     "tabs",
     "<all_urls>",
     "storage",
-    "alarms"
+    "alarms",
+    "notifications"
   ],
   "background": {
     "scripts": ["background.js"]
