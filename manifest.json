@@ -7,11 +7,12 @@
   },
   "description": "Block websites for a given time to help you focus on work/study. Using a 'browser 10 min then block 50 min' dynamic schedule approach (time adjustable)",
   "permissions": [
-    "tabs",
     "<all_urls>",
-    "storage",
     "alarms",
-    "notifications"
+    "notifications",
+    "storage",
+    "tabs",
+    "webNavigation"
   ],
   "background": {
     "scripts": ["background.js"]

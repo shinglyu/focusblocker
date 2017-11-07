@@ -1,20 +1,18 @@
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) { 
-  if (!changeInfo.hasOwnProperty('status')) {
-    console.debug("The update is not related to page loading, ignore");
-    return;
-  }
+// Check if the a blacklisted site is loaded and setup blocking
+chrome.webNavigation.onCommitted.addListener(function(navInfo){
+  // TODO: find a way to early return. Maybe cache the blacklisted tabIds?
 
   reset_default_if_setting_is_invalid();
 
-  console.debug(tab.url)
-  console.debug(changeInfo)
+  console.debug(navInfo)
 
-  chrome.storage.sync.get(["state", "end_time", "blacklist"], function(items){
+  chrome.storage.sync.get(["state", "start_time", "end_time", "blacklist"], function(items){
     // TODO: Do we need to re-parse everytime?
     var urls = parseBlacklist(items.blacklist);
     chrome.tabs.query({"url": urls}, function(tabs){
       var tab_ids = tabs.map(function(tab){return tab.id});
-      if (tab_ids.indexOf(tabId) >= 0 && changeInfo && changeInfo.status == "loading"){
+      // Check if the current tab is in the blacklisted tabs
+      if (tab_ids.indexOf(navInfo['tabId']) >= 0){
 
         // FREE and invalid state
         if (typeof(items.state) == "undefined" || items.state == "free"){
@@ -49,11 +47,22 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         }
       }
     })
-
   })
-
 });
 
+// Handle timed block/unblock
+chrome.alarms.onAlarm.addListener(function( alarm ) {
+  console.debug("Got an alarm!", alarm);
+  if (alarm.name == "block"){
+    block()
+  }
+
+  else if (alarm.name == "unblock"){
+    unblock()
+  }
+});
+
+// When settings change
 chrome.storage.onChanged.addListener(function(changes, namespace){
   console.debug(changes)
   if (changes.state && changes.state.newValue == "countdown"){
@@ -72,17 +81,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace){
   }
 })
 
-chrome.alarms.onAlarm.addListener(function( alarm ) {
-  console.debug("Got an alarm!", alarm);
-  if (alarm.name == "block"){
-    block()
-  }
-
-  else if (alarm.name == "unblock"){
-    unblock()
-  }
-});
-
+// Utility functions below
 function startCountdown() {
   var default_prompt_time = chrome.storage.sync.get({
     // Getting the default
