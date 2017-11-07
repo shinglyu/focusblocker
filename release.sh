@@ -1,3 +1,4 @@
+mkdir release
 rm -r release/*
 cp -r \
   background.js \
@@ -8,8 +9,6 @@ cp -r \
 
 mkdir release/data
 cp -r \
-  data/promptTimedBlock.js \
-  data/timedWarn.js \
   data/block.js \
   data/noicon-16.png \
   data/noicon-128.png \
