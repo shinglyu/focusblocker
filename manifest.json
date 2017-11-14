@@ -18,14 +18,7 @@
     "scripts": ["background.js"]
   },
   "manifest_version": 2,
-  "applications": {
-    "gecko": {
-      "id": "focusblocker@shing.lyu",
-      "strict_min_version": "42.0"
-    }
-  },
   "options_ui": {
-    "page": "options.html",
-    "browser_style": true
+    "page": "options.html"
   }
 }
