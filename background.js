@@ -25,6 +25,12 @@ chrome.webNavigation.onCommitted.addListener(function(navInfo){
           console.debug("Browser restarted at " + Date() + " last countdown should end at  " + (new Date(items.end_time)).toString())
           if (Date.now() < items.end_time){
             console.debug("Browser restarted, re-enable the timer for " + (new Date(items.end_time)).toString())
+            var diffMs = items.end_time - Date.now();
+            var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+            if (diffMins <= 0) {
+              diffMins = "< 1"
+            }
+            show_notification("You have " + diffMins + " min left");
             chrome.alarms.create("block", {"when":items.end_time});
           }
           else {
@@ -101,12 +107,7 @@ function startCountdown() {
         })
         */
         // Show a notification of remaining time
-        chrome.notifications.create("countdown", {
-          type: "basic",
-          title: "FocusBlocker", 
-          message: "You have " + time + " min left",
-          iconUrl: "data/noicon-128.png"
-        });
+        show_notification("You have " + time + " min left");
         console.debug("Notification created")
       }
       console.debug("Setting the state to countdown");
@@ -142,12 +143,7 @@ function block() {
       console.debug(tabs)
       for (var tab of tabs){
         console.debug("blocking tab " + tab.url)
-        chrome.notifications.create("countdown", {
-          type: "basic",
-          title: "FocusBlocker", 
-          message: "Sorry, you need to focus",
-          iconUrl: "data/noicon-128.png"
-        });
+        show_notification("Sorry, you need to focus")
         chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
       }
     });
@@ -163,6 +159,15 @@ function block() {
                               });
     }
   });
+}
+
+function show_notification(text) {
+        chrome.notifications.create("countdown", {
+          type: "basic",
+          title: "FocusBlocker", 
+          message: text,
+          iconUrl: "data/noicon-128.png"
+        });
 }
 
 function unblock(){
