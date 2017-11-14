@@ -145,6 +145,7 @@ function block() {
         console.debug("blocking tab " + tab.url)
         show_notification("Sorry, you need to focus")
         chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
+        chrome.tabs.remove(tab.id);
       }
     });
   });
