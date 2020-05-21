@@ -139,20 +139,32 @@ function block() {
   // TODO: dynamic url list
   chrome.storage.sync.get(["blacklist"], function(items){
     var urls = parseBlacklist(items.blacklist);
-    chrome.tabs.query({"url": urls}, function(tabs){
-      console.debug(tabs)
-      for (var tab of tabs){
-        console.debug("blocking tab " + tab.url)
-        show_notification("Sorry, you need to focus")
-        chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
-        chrome.tabs.remove(tab.id);
-      }
-    });
+    chrome.tabs.query({}, function(allTabs) {
+      const allTabsCount = allTabs.length;
+
+      chrome.tabs.query({"url": urls}, function(tabs){
+        console.debug(tabs)
+        const blockedTabsCount = tabs.length;
+        console.debug("Number of tabs: ", allTabsCount);
+        console.debug("Number of tabs being blocked: ", blockedTabsCount);
+        if (allTabsCount === blockedTabsCount) {
+          // If all tabs are going to be blocked, open a new tab 
+          // to prevent the window being closed
+          chrome.tabs.create({})
+        }
+        for (var tab of tabs){
+          console.debug("blocking tab " + tab.url)
+          show_notification("Sorry, you need to focus")
+          chrome.tabs.executeScript(tab.id, {file: "data/block.js"});
+          chrome.tabs.remove(tab.id);
+        }
+      });
+    })
   });
 
-  chrome.storage.sync.get(["state", "end_time", "block_time"], function(items){
-    if (items.state !== "blocking"){
-      var time = items.block_time;
+    chrome.storage.sync.get(["state", "end_time", "block_time"], function(items){
+      if (items.state !== "blocking"){
+        var time = items.block_time;
       console.debug("Setting state to blocking from " + new Date(items.end_time) + " to " + new Date(items.end_time + Math.round(time * 60 * 1000)))
       chrome.storage.sync.set({"state": "blocking", 
                                "start_time": items.end_time,
